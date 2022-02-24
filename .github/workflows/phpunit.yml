@@ -19,7 +19,7 @@ jobs:
             -   name: Set up PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: ${{ matrix.php_versions }}
+                    php-version: ${{ matrix.php-versions }}
                     coverage: pcov
                     extensions: sockets
 
