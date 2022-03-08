@@ -16,7 +16,7 @@ use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 
-class ResourceKit
+final class ResourceKit implements ResourceKitInterface
 {
     private PubSub|ConnectionFactory $pubSub;
     private ClientInterface $httpClient;
