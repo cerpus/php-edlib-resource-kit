@@ -58,5 +58,9 @@ final class ResourceKitTest extends TestCase
             'httpClient' => $httpClient,
             'pubSub' => $pubSub,
         ]];
+        yield [[
+            'pubSub' => null,
+            'synchronousResourceManager' => true,
+        ]];
     }
 }
