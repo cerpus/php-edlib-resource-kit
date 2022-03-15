@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\ResourceVersion;
 
-use Cerpus\EdlibResourceKit\Exception\RuntimeException;
+use Cerpus\EdlibResourceKit\Util\Json;
 use DateTimeImmutable;
 use Cerpus\EdlibResourceKit\Exception\HttpException;
 use Cerpus\EdlibResourceKit\Exception\MissingDataException;
 use Cerpus\EdlibResourceKit\Exception\ResourceNotFoundException;
 use InvalidArgumentException;
-use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
-use const JSON_THROW_ON_ERROR;
 
 final class ResourceVersionManager implements ResourceVersionManagerInterface
 {
@@ -89,15 +87,7 @@ final class ResourceVersionManager implements ResourceVersionManagerInterface
             throw new HttpException('Invalid HTTP status code', $statusCode ?? 0);
         }
 
-        try {
-            return json_decode(
-                $response->getBody()->getContents(),
-                true,
-                flags: JSON_THROW_ON_ERROR,
-            );
-        } catch (JsonException $e) {
-            throw new RuntimeException('Invalid JSON response', previous: $e);
-        }
+        return Json::decode($response->getBody()->getContents());
     }
 
     private static function map(array $data): ResourceVersion

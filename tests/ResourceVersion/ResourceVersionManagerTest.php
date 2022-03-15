@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cerpus\EdlibResourceKit\Tests\ResourceVersion;
 
 use Cerpus\EdlibResourceKit\ResourceVersion\ResourceVersionManager;
+use Cerpus\EdlibResourceKit\Util\Json;
 use GuzzleHttp\Psr7\HttpFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -59,7 +60,7 @@ final class ResourceVersionManagerTest extends TestCase
             )
             ->willReturn(
                 $this->httpFactory->createResponse()->withBody(
-                    $this->httpFactory->createStream(json_encode($data)),
+                    $this->httpFactory->createStream(Json::encode($data)),
                 ),
             );
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cerpus\EdlibResourceKit\Tests\Contracts;
+namespace Cerpus\EdlibResourceKit\Tests\Contract;
 
 use DateTimeImmutable;
 use Cerpus\EdlibResourceKit\Contract\EdlibResource;

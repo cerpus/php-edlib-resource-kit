@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cerpus\EdlibResourceKit\Tests\Serializer;
 
 use Cerpus\EdlibResourceKit\Serializer\ResourceSerializer;
-use Cerpus\EdlibResourceKit\Tests\Contracts\EdlibResourceStub;
+use Cerpus\EdlibResourceKit\Tests\Contract\EdlibResourceStub;
 use PHPUnit\Framework\TestCase;
 
 final class ResourceSerializerTest extends TestCase
