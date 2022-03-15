@@ -8,6 +8,7 @@ use Cerpus\EdlibResourceKit\ResourceKit;
 use Cerpus\EdlibResourceKit\Serializer\ResourceSerializer;
 use Cerpus\PubSub\Connection\ConnectionFactory;
 use Cerpus\PubSub\PubSub;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -62,5 +63,13 @@ final class ResourceKitTest extends TestCase
             'pubSub' => null,
             'synchronousResourceManager' => true,
         ]];
+    }
+
+    public function testPubSubOrSynchronousResourceManagerMustBeProvided(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Either $pubSub must be provided, or $synchronousResourceManager set to TRUE');
+
+        new ResourceKit();
     }
 }

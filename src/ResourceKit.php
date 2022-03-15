@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit;
 
-use BadMethodCallException;
 use Cerpus\EdlibResourceKit\Resource\SynchronousResourceManager;
 use Cerpus\PubSub\Connection\ConnectionFactory;
 use Cerpus\PubSub\PubSub;
@@ -15,6 +14,7 @@ use Cerpus\EdlibResourceKit\ResourceVersion\ResourceVersionManagerInterface;
 use Cerpus\EdlibResourceKit\Serializer\ResourceSerializer;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
+use InvalidArgumentException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -36,7 +36,7 @@ final class ResourceKit implements ResourceKitInterface
         private bool $synchronousResourceManager = false,
     ) {
         if (!$this->synchronousResourceManager && $pubSub === null) {
-            throw new BadMethodCallException(
+            throw new InvalidArgumentException(
                 'Either $pubSub must be provided, or $synchronousResourceManager set to TRUE',
             );
         }
