@@ -8,14 +8,14 @@ Create custom content types for [Edlib](https://edlib.com/).
 * A [PSR-17](https://www.php-fig.org/psr/psr-17/) implementation, e.g.
   [guzzlehttp/psr7](https://packagist.org/packages/guzzlehttp/psr7)
 * A [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible HTTP client, e.g.
-  [Guzzle](https://packagist.org/packages/guzzlehttp/guzzle)
-* A RabbitMQ instance shared with Edlib
+  [Guzzle 7](https://packagist.org/packages/guzzlehttp/guzzle)
 * Network access to Edlib internal services
+* A RabbitMQ instance shared with Edlib (optional)
 
 ## Installation
 
 ~~~sh
-composer require cerpus/edlib-resource-kit guzzlehttp/guzzle guzzlehttp/psr7
+composer require cerpus/edlib-resource-kit guzzlehttp/guzzle:^7 guzzlehttp/psr7
 ~~~
 
 ## Usage
@@ -28,19 +28,39 @@ simplifies use of this package.
 
 ### Configuration
 
-The only required configuration is a RabbitMQ connection that is shared with
-Edlib.
+There are two ways of making Edlib aware of new resources:
+
+* Using the message bus
+* Synchronous HTTP request
+
+The HTTP approach is slower, but waits for the publishing of a resource to be
+completed, allowing for error handling.
+
+When using the message bus approach, a RabbitMQ connection must be provided:
 
 ~~~php
 use Cerpus\EdlibResourceKit\ResourceKit;
 use Cerpus\PubSub\Connection\ConnectionFactory;
 
 $connectionFactory = new ConnectionFactory('localhost', 5672, 'guest', 'guest');
-$edlib = new ResourceKit($connectionFactory);
+$resourceKit = new ResourceKit($connectionFactory);
+~~~
 
-// Access the various components
-$resourceManager = $edlib->getResourceManager();
-$versionManager = $edlib->getResourceVersionManager();
+For the HTTP approach, other than providing the `synchronousResourceManager`
+flag, there is no mandatory configuration:
+
+~~~php
+use Cerpus\EdlibResourceKit\ResourceKit;
+
+$resourceKit = new ResourceKit(synchronousResourceManager: true);
+~~~~
+
+Once you have a ResourceKit instance, you can begin to access the various
+components of it:
+
+~~~php
+$resourceManager = $resourceKit->getResourceManager();
+$versionManager = $resourecKit->getResourceVersionManager();
 ~~~~
 
 ### Notifying Edlib of content updates
@@ -102,6 +122,7 @@ manager must take place. The procedure will vary depending on your framework of
 choice, but here it is demonstrated using the observer pattern:
 
 ~~~php
+use Cerpus\EdlibResourceKit\Contract\EdlibResource;
 use Cerpus\EdlibResourceKit\Resource\ResourceManagerInterface;
 
 class ArticleObserver
@@ -112,12 +133,21 @@ class ArticleObserver
 
     public function onCreate(Article $article): void
     {
-        return $this->manager->save($article->toEdlibResource());
+        $this->save($article->toEdlibResource());
     }
 
     public function onUpdate(Article $article): void
     {
-        return $this->manager->save($article->toEdlibResource());
+        $this->save($article->toEdlibResource());
+    }
+
+    private function save(EdlibResource $resource): void
+    {
+        try {
+            return $this->manager->save($resource);
+        } catch (ResourceSaveFailedException $e) {
+            // handle the failure somehow
+        }
     }
 }
 ~~~
@@ -127,28 +157,34 @@ Edlib.
 
 ## Advanced usage
 
-### Overriding the HTTP client & factories
+### Overriding the HTTP client & message factories
 
-This library will look for and make use of any PSR-18 compatible clients that
-are installed (via [HTTPlug Discovery](https://github.com/php-http/discovery)).
-You can override the HTTP client with any PSR-18-compatible client of your
-choosing:
+This library will look for and make use of any PSR-17 compatible message
+factories and PSR-18 compatible HTTP clients that are installed (via
+[HTTPlug Discovery](https://github.com/php-http/discovery)). You can override
+these with factories & clients of your choosing:
 
 ~~~php
 use App\Http\MyClient;
 use App\Http\MyRequestFactory;
+use App\Http\MyStreamFactory;
 use Cerpus\EdlibResourceKit\ResourceKit;
 
-$resourceKit = new ResourceKit($pubSub, new MyClient(), new MyRequestFactory());
+$resourceKit = new ResourceKit(
+    httpClient: new MyClient(),
+    requestFactory: new MyRequestFactory(),
+    streamFactory: new MyStreamFactory(),
+    synchronousResourceManager: true,
+);
 ~~~
 
-You may get better logging and debugging capabilities by wiring up the HTTP
-client provided by your framework.
+By wiring up the HTTP client provided by your web framework, you may get better
+logging & debugging capabilities.
 
-### Adding extra data when publishing to the message bus
+### Adding extra data when publishing resources
 
-It might be necessary to add extra data to a message before publishing it to the
-bus. This can be done using a custom serializer:
+It might be necessary to add extra data to a resource before publishing it. This
+can be done using a custom serializer:
 
 ~~~php
 use Cerpus\EdlibResourceKit\Contract\EdlibResource;

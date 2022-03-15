@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Tests\Resource;
 
+use Cerpus\EdlibResourceKit\Util\Json;
 use Cerpus\PubSub\PubSub;
 use Cerpus\EdlibResourceKit\Resource\ResourceManager;
 use Cerpus\EdlibResourceKit\Serializer\ResourceSerializer;
-use Cerpus\EdlibResourceKit\Tests\Contracts\EdlibResourceStub;
+use Cerpus\EdlibResourceKit\Tests\Contract\EdlibResourceStub;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -35,9 +36,8 @@ final class ResourceManagerTest extends TestCase
     {
         $resource = new EdlibResourceStub();
 
-        $serialized = json_encode(
+        $serialized = Json::encode(
             $this->resourceSerializer->serialize($resource),
-            JSON_THROW_ON_ERROR,
         );
 
         $this->resourceSerializer

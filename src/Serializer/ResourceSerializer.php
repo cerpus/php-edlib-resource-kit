@@ -8,7 +8,7 @@ use DateTimeInterface;
 use Cerpus\EdlibResourceKit\Contract\EdlibResource;
 
 /**
- * Serializes a resource for sending on the message bus.
+ * Serializes a resource for publication.
  */
 class ResourceSerializer
 {
