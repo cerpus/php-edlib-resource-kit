@@ -28,6 +28,7 @@ final class ResourceSerializerTest extends TestCase
             'ownerId' => $resource->getOwnerId(),
             'isPublished' => $resource->isPublished(),
             'isListed' => $resource->isListed(),
+            'isDraft' => $resource->isDraft(),
             'createdAt' => $resource->getCreatedAt()->format(\DateTimeInterface::ATOM),
             'updatedAt' => $resource->getUpdatedAt()->format(\DateTimeInterface::ATOM),
             'maxScore' => $resource->getMaxScore(),

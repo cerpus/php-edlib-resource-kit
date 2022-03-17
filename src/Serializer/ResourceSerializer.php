@@ -21,6 +21,7 @@ class ResourceSerializer
             'ownerId' => $resource->getOwnerId(),
             'isPublished' => $resource->isPublished(),
             'isListed' => $resource->isListed(),
+            'isDraft' => $resource->isDraft(),
             'language' => $resource->getLanguage(),
             'contentType' => $resource->getContentType(),
             'license' => $resource->getLicense(),

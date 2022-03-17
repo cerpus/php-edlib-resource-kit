@@ -34,6 +34,8 @@ interface EdlibResource
 
     public function isListed(): bool;
 
+    public function isDraft(): bool;
+
     /**
      * The language as an ISO 639-3 identifier, or NULL if no language is
      * defined.
