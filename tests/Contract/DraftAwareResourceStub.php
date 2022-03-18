@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Tests\Contract;
 
+use Cerpus\EdlibResourceKit\Contract\DraftAwareResource;
 use DateTimeImmutable;
-use Cerpus\EdlibResourceKit\Contract\EdlibResource;
 
-final class EdlibResourceStub implements EdlibResource
+final class DraftAwareResourceStub implements DraftAwareResource
 {
     public function getExternalSystemName(): string
     {
@@ -35,6 +35,11 @@ final class EdlibResourceStub implements EdlibResource
     }
 
     public function isListed(): bool
+    {
+        return true;
+    }
+
+    public function isDraft(): bool
     {
         return true;
     }

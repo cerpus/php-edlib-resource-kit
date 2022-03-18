@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Serializer;
 
+use Cerpus\EdlibResourceKit\Contract\DraftAwareResource;
 use DateTimeInterface;
 use Cerpus\EdlibResourceKit\Contract\EdlibResource;
 
@@ -14,14 +15,14 @@ class ResourceSerializer
 {
     public function serialize(EdlibResource $resource): array
     {
-        return [
+        $data = [
             'externalSystemName' => $resource->getExternalSystemName(),
             'externalSystemId' => $resource->getExternalSystemId(),
             'title' => $resource->getTitle(),
             'ownerId' => $resource->getOwnerId(),
             'isPublished' => $resource->isPublished(),
             'isListed' => $resource->isListed(),
-            'isDraft' => $resource->isDraft(),
+            'isDraft' => false,
             'language' => $resource->getLanguage(),
             'contentType' => $resource->getContentType(),
             'license' => $resource->getLicense(),
@@ -31,5 +32,11 @@ class ResourceSerializer
             'collaborators' => $resource->getCollaborators(),
             'emailCollaborators' => $resource->getEmailCollaborators(),
         ];
+
+        if ($resource instanceof DraftAwareResource) {
+            $data['isDraft'] = $resource->isDraft();
+        }
+
+        return $data;
     }
 }
