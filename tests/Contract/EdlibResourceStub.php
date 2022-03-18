@@ -82,4 +82,9 @@ final class EdlibResourceStub implements EdlibResource
             'johnny.cash@example.com',
         ];
     }
+
+    public function isDraft(): bool
+    {
+        return false;
+    }
 }
