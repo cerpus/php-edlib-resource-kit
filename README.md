@@ -4,7 +4,7 @@ Create custom content types for [Edlib](https://edlib.com/).
 
 ## Requirements
 
-* PHP 8.0 or 8.1
+* PHP 8.0, 8.1, or 8.2
 * A [PSR-17](https://www.php-fig.org/psr/psr-17/) implementation, e.g.
   [guzzlehttp/psr7](https://packagist.org/packages/guzzlehttp/psr7)
 * A [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible HTTP client, e.g.
