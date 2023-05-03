@@ -4,7 +4,7 @@ Create custom content types for [Edlib](https://edlib.com/).
 
 ## Requirements
 
-* PHP 8.0, 8.1, or 8.2
+* PHP 8.2
 * A [PSR-17](https://www.php-fig.org/psr/psr-17/) implementation, e.g.
   [guzzlehttp/psr7](https://packagist.org/packages/guzzlehttp/psr7)
 * A [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible HTTP client, e.g.
@@ -18,7 +18,86 @@ Create custom content types for [Edlib](https://edlib.com/).
 composer require cerpus/edlib-resource-kit guzzlehttp/guzzle:^7 guzzlehttp/psr7
 ~~~
 
-## Usage
+## Usage (Edlib 3)
+
+Rather than communicating via bespoke APIs over private network connections,
+Edlib 3 is notified of new content via the [LTI Content-Item Message standard](http://www.imsglobal.org/specs/lticiv1p0/specification).
+Edlib Resource Kit provides message objects, mappers, and serialisers for
+working with Content-Item messages.
+
+### Mapping
+
+Map serialised Content-Item graphs to message objects:
+
+```php
+use Cerpus\EdlibResourceKit\Lti\ContentItem\Mapper\ContentItemsMapper;
+
+$mapper = new ContentItemsMapper();
+$items = $mapper->map(<<<EOJSON
+{
+    "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
+    "@graph": [
+        {
+            "@type": "LtiLinkItem",
+            "mediaType": "application/vnd.ims.lti.v1.ltilink",
+            "title": "My Cool LTI Content",
+            "url": "https://example.com/my-lti-content"
+        }
+    ]
+}
+EOJSON);
+
+echo count($items), "\n"; // 1
+echo $items[0]->getTitle(), "\n"; // My Cool LTI Content
+```
+
+### Serialisation
+
+Convert Content-Item message objects to their serialised [JSON-LD](https://www.w3.org/TR/json-ld11/#introduction)
+representations:
+
+```php
+use Cerpus\EdlibResourceKit\Lti\ContentItem\ContentItems;
+use Cerpus\EdlibResourceKit\Lti\ContentItem\LtiLinkItem;
+use Cerpus\EdlibResourceKit\Lti\ContentItem\Serializer\ContentItemsSerializer;
+
+$items = new ContentItems([
+    new LtiLinkItem(
+        mediaType: 'application/vnd.ims.lti.v1.ltilink',
+        title: 'My Cool LTI Content',
+        url: 'https://example.com/my-lti-content',
+    ),
+]);
+
+$serializer = new ContentItemsSerializer();
+$serialized = $serializer->serialize($items);
+
+echo json_encode($serialized);
+```
+
+Output:
+
+```json
+{
+    "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
+    "@graph": [
+        {
+            "@type": "LtiLinkItem",
+            "http://purl.imsglobal.org/vocab/lti/v1/ci#mediaType": "application/vnd.ims.lti.v1.ltilink",
+            "http://purl.imsglobal.org/vocab/lti/v1/ci#title": "My Cool LTI Content",
+            "http://purl.imsglobal.org/vocab/lti/v1/ci#url": "https://example.com/my-lti-content"
+        }
+    ]
+}
+```
+
+**Note:** The output format might differ from what you expect. In particular,
+you may find that keys are fully qualified [IRIs](https://www.w3.org/TR/json-ld11/)
+instead of their short names. To handle this, the receiver should normalise the
+serialised data according to JSON-LD rules. No guarantees are made as to how the
+JSON-LD data is formatted.
+
+## Usage (old Edlib)
 
 ### Framework integration
 
@@ -212,3 +291,10 @@ $resourceKit = new ResourceKit($pubSub, resourceSerializer: new MySerializer());
 
 This package is released under the GNU General Public License 3.0. See the
 `LICENSE` file for more information.
+
+## Attribution
+
+* [context.jsonld](src/Lti/ContentItem/Context/ContentItem.jsonld)
+
+  Retrieved from <https://www.imsglobal.org/lti/model/mediatype/application/vnd/ims/lti/v1/contentitems+json/context.json>
+  on 28th April 2023.

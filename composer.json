@@ -3,6 +3,10 @@
     "description": "Create resource types for Edlib",
     "homepage": "https://edlib.com/",
     "license": "GPL-3.0-only",
+    "support": {
+        "docs": "https://docs.edlib.com/",
+        "issues": "https://github.com/cerpus/Edlib/issues"
+    },
     "authors": [
         {
             "name": "Emma Cecilie Hughes",
@@ -20,8 +24,9 @@
         }
     },
     "require": {
-        "php": "8.0.*|8.1.*|8.2.*",
+        "php": "8.2.*",
         "cerpus/pubsub": "^1.0",
+        "ml/json-ld": "^1.2",
         "php-http/discovery": "^1.14.1",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "^1.0",
@@ -31,9 +36,12 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.4",
         "guzzlehttp/psr7": "^2.1",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^10.1"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
