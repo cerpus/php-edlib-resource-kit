@@ -1,5 +1,7 @@
 # Edlib Resource Kit
 
+[![codecov](https://codecov.io/github/cerpus/php-edlib-resource-kit/branch/master/graph/badge.svg?token=ZDOKCE9NPA)](https://codecov.io/github/cerpus/php-edlib-resource-kit)
+
 Create custom content types for [Edlib](https://edlib.com/).
 
 ## Requirements
