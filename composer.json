@@ -3,6 +3,7 @@
     "description": "Create resource types for Edlib",
     "homepage": "https://edlib.com/",
     "license": "GPL-3.0-only",
+    "keywords": ["lti"],
     "support": {
         "docs": "https://docs.edlib.com/",
         "issues": "https://github.com/cerpus/Edlib/issues"
@@ -42,6 +43,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "php-http/discovery": true
+        },
+        "platform": {
+            "ext-sockets": "8.2.99"
         }
     },
     "extra": {
