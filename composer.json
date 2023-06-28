@@ -29,15 +29,21 @@
         "cerpus/pubsub": "^1.0",
         "ml/json-ld": "^1.2",
         "php-http/discovery": "^1.14.1",
+        "psr/cache": "^1.0|^2.0|^3.0",
+        "psr/cache-implementation": "^1.0|^2.0|^3.0",
+        "psr/clock": "^1.0",
+        "psr/clock-implementation": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-factory-implementation": "^1.0"
     },
     "require-dev": {
+        "cache/array-adapter": "^1.2",
         "guzzlehttp/guzzle": "^7.4",
         "guzzlehttp/psr7": "^2.1",
-        "phpunit/phpunit": "^10.1"
+        "phpunit/phpunit": "^10.1",
+        "symfony/clock": "^6.3"
     },
     "config": {
         "sort-packages": true,
