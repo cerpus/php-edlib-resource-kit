@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://spec.edlib.com/schema/jwt.json#",
+    "type": "object",
+    "properties": {
+        "iss": {
+            "type": "string"
+        },
+        "sub": {
+            "type": "string"
+        },
+        "aud": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/audience"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/audience"
+                    }
+                }
+            ]
+        },
+        "exp": {
+            "type": "number"
+        },
+        "nbf": {
+            "type": "number"
+        },
+        "iat": {
+            "type": "number"
+        }
+    },
+    "$defs": {
+        "audience": {
+            "type": "string"
+        }
+    }
+}

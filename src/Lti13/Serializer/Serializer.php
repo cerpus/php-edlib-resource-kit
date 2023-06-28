@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Lti13\Serializer;
 
-use Cerpus\EdlibResourceKit\Lti13\Mapping\ReaderType;
+use Cerpus\EdlibResourceKit\Lti13\Mapping\ReadType;
 use Cerpus\EdlibResourceKit\Lti13\Mapping\MappingInterface;
 use Cerpus\EdlibResourceKit\Lti13\Mapping\ReflectionMapping;
 use StringBackedEnum;
@@ -22,11 +22,11 @@ final readonly class Serializer implements SerializerInterface
     {
         $serialized = [];
         foreach ($this->mapping->getFields($message) as $field) {
-            $name = $field->getReader()->getName();
-            $value = match ($field->getReader()->getType()) {
-                ReaderType::Constant => constant($message::class . '::' . $name),
-                ReaderType::Getter => $message->{$name}(),
-                ReaderType::Property => $message->$name,
+            $name = $field->getRead()->getName();
+            $value = match ($field->getRead()->getType()) {
+                ReadType::Constant => constant($message::class . '::' . $name),
+                ReadType::Getter => $message->{$name}(),
+                ReadType::Property => $message->$name,
             };
 
             $value = $this->serializeValue($value);

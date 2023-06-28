@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://spec.edlib.com/schema/lti_message.json#",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "https://spec.edlib.com/schema/jwt.json#"
+        },
+        {
+            "$ref": "https://spec.edlib.com/schema/oidc.json#"
+        },
+        {
+            "properties": {
+                "https://purl.imsglobal.org/spec/lti/claim/version": {
+                    "type": "string",
+                    "const": "1.3.0"
+                }
+            },
+            "required": [
+                "https://purl.imsglobal.org/spec/lti/claim/version"
+            ]
+        }
+    ]
+}

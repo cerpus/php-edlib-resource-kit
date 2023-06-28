@@ -7,12 +7,12 @@ namespace Cerpus\EdlibResourceKit\Lti13\Mapping;
 /**
  * How to read a field's value.
  */
-class Reader
+final readonly class Read
 {
     public function __construct(
-        private readonly string $name,
-        private readonly ReaderType $type,
-        private readonly bool $private = false,
+        private string $name,
+        private ReadType $type,
+        private bool $private = false,
     ) {
     }
 
@@ -21,7 +21,7 @@ class Reader
         return $this->name;
     }
 
-    public function getType(): ReaderType
+    public function getType(): ReadType
     {
         return $this->type;
     }

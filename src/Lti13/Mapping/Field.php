@@ -8,7 +8,8 @@ class Field
 {
     public function __construct(
         private readonly string $claim,
-        private readonly Reader $reader,
+        private Read|null $read = null,
+        private Write|null $write = null,
     ) {
     }
 
@@ -17,13 +18,29 @@ class Field
         return $this->claim;
     }
 
-    public function getReader(): Reader
+    public function getRead(): Read
     {
-        return $this->reader;
+        return $this->read;
     }
 
-    public function withReader(Reader $reader): self
+    public function withRead(Read $read): static
     {
-        return new self($this->claim, $reader);
+        $self = clone $this;
+        $self->read = $read;
+
+        return $self;
+    }
+
+    public function getWrite(): Write
+    {
+        return $this->write;
+    }
+
+    public function withWrite(Write $write): static
+    {
+        $self = clone $this;
+        $self->write = $write;
+
+        return $self;
     }
 }

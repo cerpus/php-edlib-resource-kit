@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Cerpus\EdlibResourceKit\Lti13\Mapping;
 
 use Cerpus\EdlibResourceKit\Lti13\Attribute\Claim;
+use Cerpus\EdlibResourceKit\Lti13\Attribute\JsonSchema;
 use ReflectionClass;
 use ReflectionClassConstant;
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
+use function is_object;
 use function preg_replace;
 use function preg_replace_callback;
 use function str_starts_with;
@@ -39,21 +42,24 @@ final class ReflectionMapping implements MappingInterface
      * The inferred names will then be their lower_case_snake_case equivalents.
      *
      * @return Field[]
+     * @throws ReflectionException
      */
-    public function getFields(object $object): array
+    public function getFields(object|string $objectOrClass): array
     {
-        if (!isset($this->cachedFields[$object::class])) {
-            $r = new ReflectionClass($object);
+        $class = is_object($objectOrClass) ? $objectOrClass::class : $objectOrClass;
+
+        if (!isset($this->cachedFields[$class])) {
+            $r = new ReflectionClass($class);
             $propertyMappingInfo = self::readMappingInfoFromProperties($r);
 
-            $this->cachedFields[$object::class] = array_filter([
+            $this->cachedFields[$class] = array_filter([
                 ...self::readMappingInfoFromConstants($r),
                 ...$propertyMappingInfo,
                 ...self::readMappingInfoFromMethods($r, $propertyMappingInfo),
-            ], fn(Field $field) => !$field->getReader()->isPrivate());
+            ], fn(Field $field) => !$field->getRead()->isPrivate());
         }
 
-        return $this->cachedFields[$object::class];
+        return $this->cachedFields[$class];
     }
 
     /**
@@ -70,9 +76,9 @@ final class ReflectionMapping implements MappingInterface
                 if ($claim) {
                     $mappingInfo[$key] = new Field(
                         claim: $claim->name ?? $key,
-                        reader: new Reader(
+                        read: new Read(
                             name: $rConstant->getName(),
-                            type: ReaderType::Constant,
+                            type: ReadType::Constant,
                         ),
                     );
                 }
@@ -103,9 +109,9 @@ final class ReflectionMapping implements MappingInterface
                 if ($claim) {
                     $mappingInfo[$key] = new Field(
                         claim: $claim->name ?? $key,
-                        reader: new Reader(
+                        read: new Read(
                             name: $rProperty->getName(),
-                            type: ReaderType::Property,
+                            type: ReadType::Property,
                             private: !$rProperty->isPublic(),
                         ),
                     );
@@ -140,20 +146,20 @@ final class ReflectionMapping implements MappingInterface
                 if ($claim) {
                     $mappingInfo[$key] = new Field(
                         claim: $claim->name ?? $key,
-                        reader: new Reader(
+                        read: new Read(
                             name: $rMethod->getName(),
-                            type: ReaderType::Getter,
+                            type: ReadType::Getter,
                         ),
                     );
                 } elseif (
                     isset($propertyMappingInfo[$key]) &&
-                    $propertyMappingInfo[$key]->getReader()->getType() === ReaderType::Property
+                    $propertyMappingInfo[$key]->getRead()->getType() === ReadType::Property
                 ) {
                     // this is a getter for a private property
                     $mappingInfo[$key] = $propertyMappingInfo[$key]
-                        ->withReader(new Reader(
+                        ->withRead(new Read(
                             name: $rMethod->getName(),
-                            type: ReaderType::Getter,
+                            type: ReadType::Getter,
                         ));
                 }
             }
@@ -188,5 +194,16 @@ final class ReflectionMapping implements MappingInterface
             fn(array $matches) => '_' . $matches[1],
             $name,
         ));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function getJsonSchemaId(object|string $objectOrClass): string|null
+    {
+        $r = new ReflectionClass($objectOrClass);
+        $schema = $r->getAttributes(JsonSchema::class)[0] ?? null;
+
+        return $schema?->newInstance()->id;
     }
 }
