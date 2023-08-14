@@ -10,6 +10,7 @@ interface LtiLinkItemSerializerInterface
 {
     /**
      * @return array<mixed>
+     *     The expanded form JSON-LD representation of an LTI link item
      */
     public function serialize(LtiLinkItem $item): array;
 }

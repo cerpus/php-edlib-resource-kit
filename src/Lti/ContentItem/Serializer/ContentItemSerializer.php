@@ -21,8 +21,12 @@ final readonly class ContentItemSerializer implements ContentItemSerializerInter
     public function serialize(ContentItem $item): array
     {
         $serialized = [
-            '@type' => 'ContentItem',
-            ContentItems::PROP_MEDIA_TYPE => $item->getMediaType(),
+            '@type' => ContentItems::TYPE_CONTENT_ITEM,
+
+            ContentItems::PROP_MEDIA_TYPE => [
+                '@value' => $item->getMediaType(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#normalizedString',
+            ],
         ];
 
         if ($item->getPlacementAdvice() !== null) {
@@ -39,7 +43,10 @@ final readonly class ContentItemSerializer implements ContentItemSerializerInter
         }
 
         if ($item->getText() !== null) {
-            $serialized[ContentItems::PROP_TEXT] = $item->getText();
+            $serialized[ContentItems::PROP_TEXT] = [
+                '@value' => $item->getText(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#string',
+            ];
         }
 
         if ($item->getThumbnail() !== null) {
@@ -49,11 +56,17 @@ final readonly class ContentItemSerializer implements ContentItemSerializerInter
         }
 
         if ($item->getTitle() !== null) {
-            $serialized[ContentItems::PROP_TITLE] = $item->getTitle();
+            $serialized[ContentItems::PROP_TITLE] = [
+                '@value' => $item->getTitle(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#normalizedString',
+            ];
         }
 
         if ($item->getUrl() !== null) {
-            $serialized[ContentItems::PROP_URL] = $item->getUrl();
+            $serialized[ContentItems::PROP_URL] = [
+                '@value' => $item->getUrl(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#anyURI',
+            ];
         }
 
         return $serialized;

@@ -14,20 +14,30 @@ final readonly class ContentItemPlacementSerializer implements ContentItemPlacem
         $serialized = [];
 
         if ($placement->getDisplayWidth() !== null) {
-            $serialized[ContentItems::PROP_DISPLAY_WIDTH] = $placement->getDisplayWidth();
+            $serialized[ContentItems::PROP_DISPLAY_WIDTH] = [
+                '@value' => $placement->getDisplayWidth(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#integer',
+            ];
         }
 
         if ($placement->getDisplayHeight() !== null) {
-            $serialized[ContentItems::PROP_DISPLAY_HEIGHT] = $placement->getDisplayHeight();
+            $serialized[ContentItems::PROP_DISPLAY_HEIGHT] = [
+                '@value' => $placement->getDisplayHeight(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#integer',
+            ];
         }
 
         if ($placement->getPresentationDocumentTarget() !== null) {
-            $serialized[ContentItems::PROP_PRESENTATION_DOCUMENT_TARGET]
-                = $placement->getPresentationDocumentTarget()->toShortName();
+            $serialized[ContentItems::PROP_PRESENTATION_DOCUMENT_TARGET] = [
+                '@id' => $placement->getPresentationDocumentTarget()->toShortName(),
+            ];
         }
 
         if ($placement->getWindowTarget() !== null) {
-            $serialized[ContentItems::PROP_WINDOW_TARGET] = $placement->getWindowTarget();
+            $serialized[ContentItems::PROP_WINDOW_TARGET] = [
+                '@value' => $placement->getWindowTarget(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#normalizedString',
+            ];
         }
 
         return $serialized;

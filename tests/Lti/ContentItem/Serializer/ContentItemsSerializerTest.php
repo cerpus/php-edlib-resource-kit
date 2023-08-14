@@ -6,16 +6,44 @@ namespace Cerpus\EdlibResourceKit\Tests\Lti\ContentItem\Serializer;
 
 use Cerpus\EdlibResourceKit\Lti\ContentItem\ContentItemPlacement;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\ContentItems;
+use Cerpus\EdlibResourceKit\Lti\ContentItem\FileItem;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\Image;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\LtiLinkItem;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\Mapper\ContentItemsMapper;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\PresentationDocumentTarget;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\Serializer\ContentItemsSerializer;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 final class ContentItemsSerializerTest extends TestCase
 {
+    public function testSerializesTheExampleFromReadme(): void
+    {
+        $items = new ContentItems([
+            new LtiLinkItem(
+                mediaType: 'application/vnd.ims.lti.v1.ltilink',
+                title: 'My Cool LTI Content',
+                url: 'https://example.com/my-lti-content',
+            ),
+        ]);
+
+        $serializer = new ContentItemsSerializer();
+        $serialized = $serializer->serialize($items);
+
+        $this->assertEquals([
+            '@context' => 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+            '@graph' => [
+                [
+                    '@type' => 'LtiLinkItem',
+                    'mediaType' => 'application/vnd.ims.lti.v1.ltilink',
+                    'title' => 'My Cool LTI Content',
+                    'url' => 'https://example.com/my-lti-content'
+                ]
+            ],
+        ], $serialized);
+    }
+
     /**
      * @return array<mixed>
      */
@@ -36,9 +64,11 @@ final class ContentItemsSerializerTest extends TestCase
                 title: 'My Cool Content',
                 url: 'https://example.com/lti',
             ),
-            new LtiLinkItem(
+            new FileItem(
                 mediaType: 'application/vnd.ims.lti.v1.ltilink',
                 title: 'My Other Cool Content',
+                copyAdvice: true,
+                expiresAt: new DateTimeImmutable('2020-01-01T00:00:00Z'),
             )
         ]);
 
@@ -49,31 +79,33 @@ final class ContentItemsSerializerTest extends TestCase
             '@graph' => [
                 [
                     '@type' => 'LtiLinkItem',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#icon' => [
+                    'icon' => [
                         '@id' => 'http://example.com/icon.jpg',
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#width' => 320,
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#height' => 240,
+                        'width' => 320,
+                        'height' => 240,
                     ],
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#thumbnail' => [
+                    'thumbnail' => [
                         '@id' => 'http://example.com/thumbnail.jpg',
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#width' => 32,
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#height' => 24,
+                        'width' => 32,
+                        'height' => 24,
                     ],
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#mediaType' => 'application/vnd.ims.lti.v1.ltilink',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#placementAdvice' => [
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#displayWidth' => 640,
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#displayHeight' => 480,
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#presentationDocumentTarget' => 'iframe',
-                        'http://purl.imsglobal.org/vocab/lti/v1/ci#windowTarget' => '_top',
+                    'mediaType' => 'application/vnd.ims.lti.v1.ltilink',
+                    'placementAdvice' => [
+                        'displayWidth' => 640,
+                        'displayHeight' => 480,
+                        'presentationDocumentTarget' => 'iframe',
+                        'windowTarget' => '_top',
                     ],
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#title' => 'My Cool Content',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#text' => 'A cool text description of my cool content',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#url' => 'https://example.com/lti',
+                    'title' => 'My Cool Content',
+                    'text' => 'A cool text description of my cool content',
+                    'url' => 'https://example.com/lti',
                 ],
                 [
-                    '@type' => 'LtiLinkItem',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#mediaType' => 'application/vnd.ims.lti.v1.ltilink',
-                    'http://purl.imsglobal.org/vocab/lti/v1/ci#title' => 'My Other Cool Content',
+                    '@type' => 'FileItem',
+                    'mediaType' => 'application/vnd.ims.lti.v1.ltilink',
+                    'title' => 'My Other Cool Content',
+                    'expiresAt' => '2020-01-01T00:00:00+00:00',
+                    'copyAdvice' => true,
                 ],
             ],
         ], $serialized);

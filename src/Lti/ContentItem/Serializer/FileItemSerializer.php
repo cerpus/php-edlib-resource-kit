@@ -18,17 +18,21 @@ final readonly class FileItemSerializer implements FileItemSerializerInterface
     {
         $serialized = [
             ...$this->serializer->serialize($item),
-            '@type' => 'FileItem',
+            '@type' => ContentItems::VOCAB . 'FileItem',
         ];
 
         if ($item->getCopyAdvice() !== null) {
-            $serialized[ContentItems::PROP_COPY_ADVICE] = $item->getCopyAdvice();
+            $serialized[ContentItems::PROP_COPY_ADVICE] = [
+                '@value' => $item->getCopyAdvice(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#boolean',
+            ];
         }
 
         if ($item->getExpiresAt() !== null) {
-            $serialized[ContentItems::PROP_EXPIRES_AT] = $item
-                ->getExpiresAt()
-                ->format('c'); // TODO: is this correct?
+            $serialized[ContentItems::PROP_EXPIRES_AT] = [
+                '@value' => $item->getExpiresAt()->format('c'), // TODO: is this correct?
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            ];
         }
 
         return $serialized;

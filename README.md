@@ -85,19 +85,13 @@ Output:
     "@graph": [
         {
             "@type": "LtiLinkItem",
-            "http://purl.imsglobal.org/vocab/lti/v1/ci#mediaType": "application/vnd.ims.lti.v1.ltilink",
-            "http://purl.imsglobal.org/vocab/lti/v1/ci#title": "My Cool LTI Content",
-            "http://purl.imsglobal.org/vocab/lti/v1/ci#url": "https://example.com/my-lti-content"
+            "mediaType": "application/vnd.ims.lti.v1.ltilink",
+            "title": "My Cool LTI Content",
+            "url": "https://example.com/my-lti-content"
         }
     ]
 }
 ```
-
-**Note:** The output format might differ from what you expect. In particular,
-you may find that keys are fully qualified [IRIs](https://www.w3.org/TR/json-ld11/)
-instead of their short names. To handle this, the receiver should normalise the
-serialised data according to JSON-LD rules. No guarantees are made as to how the
-JSON-LD data is formatted.
 
 ## Usage (old Edlib)
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Lti\ContentItem\Serializer;
 
+use Cerpus\EdlibResourceKit\Lti\ContentItem\ContentItems;
 use Cerpus\EdlibResourceKit\Lti\ContentItem\LtiLinkItem;
 
 final readonly class LtiLinkItemSerializer implements LtiLinkItemSerializerInterface
@@ -20,7 +21,7 @@ final readonly class LtiLinkItemSerializer implements LtiLinkItemSerializerInter
     {
         return [
             ...$this->serializer->serialize($item),
-            '@type' => 'LtiLinkItem',
+            '@type' => ContentItems::VOCAB . 'LtiLinkItem',
         ];
     }
 }

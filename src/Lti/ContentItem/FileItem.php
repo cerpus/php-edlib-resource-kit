@@ -9,7 +9,7 @@ use DateTimeInterface;
 
 class FileItem extends ContentItem
 {
-    private readonly DateTimeImmutable $expiresAt;
+    private readonly DateTimeImmutable|null $expiresAt;
 
     public function __construct(
         string $mediaType,
@@ -22,7 +22,11 @@ class FileItem extends ContentItem
         string|null $title = null,
         string|null $url = null,
     ) {
-        $this->expiresAt = DateTimeImmutable::createFromInterface($expiresAt);
+        if ($expiresAt !== null) {
+            $this->expiresAt = DateTimeImmutable::createFromInterface($expiresAt);
+        } else {
+            $this->expiresAt = null;
+        }
 
         parent::__construct(
             $mediaType,
@@ -35,12 +39,12 @@ class FileItem extends ContentItem
         );
     }
 
-    public function getCopyAdvice(): ?bool
+    public function getCopyAdvice(): bool|null
     {
         return $this->copyAdvice;
     }
 
-    public function getExpiresAt(): DateTimeImmutable
+    public function getExpiresAt(): DateTimeImmutable|null
     {
         return $this->expiresAt;
     }

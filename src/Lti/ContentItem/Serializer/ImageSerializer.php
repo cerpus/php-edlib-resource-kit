@@ -16,11 +16,17 @@ final readonly class ImageSerializer implements ImageSerializerInterface
         ];
 
         if ($image->getWidth() !== null) {
-            $serialized[ContentItems::PROP_WIDTH] = $image->getWidth();
+            $serialized[ContentItems::PROP_WIDTH] = [
+                '@value' => $image->getWidth(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#integer',
+            ];
         }
 
         if ($image->getHeight() !== null) {
-            $serialized[ContentItems::PROP_HEIGHT] = $image->getHeight();
+            $serialized[ContentItems::PROP_HEIGHT] = [
+                '@value' => $image->getHeight(),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#integer',
+            ];
         }
 
         return $serialized;

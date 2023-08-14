@@ -10,6 +10,7 @@ interface FileItemSerializerInterface
 {
     /**
      * @return array<mixed>
+     *     The expanded form JSON-LD representation of an LTI file item
      */
     public function serialize(FileItem $item): array;
 }

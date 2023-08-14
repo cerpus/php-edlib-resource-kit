@@ -10,6 +10,8 @@ interface ContentItemPlacementSerializerInterface
 {
     /**
      * @return array<mixed>
+     *     The expanded form JSON-LD representation of the content item
+     *     placement
      */
     public function serialize(ContentItemPlacement $placement): array;
 }

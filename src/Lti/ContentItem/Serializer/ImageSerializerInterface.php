@@ -10,6 +10,7 @@ interface ImageSerializerInterface
 {
     /**
      * @return array<mixed>
+     *     The expanded form JSON-LD representation of an image
      */
     public function serialize(Image $image): array;
 }
