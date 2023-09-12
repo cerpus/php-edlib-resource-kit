@@ -32,7 +32,7 @@ working with Content-Item messages.
 Map serialised Content-Item graphs to message objects:
 
 ```php
-use Cerpus\EdlibResourceKit\Lti\ContentItem\Mapper\ContentItemsMapper;
+use Cerpus\EdlibResourceKit\Lti\Lti11\Mapper\DeepLinking\ContentItemsMapper;
 
 $mapper = new ContentItemsMapper();
 $items = $mapper->map(<<<EOJSON
@@ -53,23 +53,26 @@ echo count($items), "\n"; // 1
 echo $items[0]->getTitle(), "\n"; // My Cool LTI Content
 ```
 
+The JSON input must match the compacted JSON-LD representation, as can be seen
+in the [LTI Deep Linking 1.0 specification](http://www.imsglobal.org/specs/lticiv1p0/specification).
+If the input does not match, a JSON-LD processor can be used to make the input
+compliant.
+
 ### Serialisation
 
-Convert Content-Item message objects to their serialised [JSON-LD](https://www.w3.org/TR/json-ld11/#introduction)
-representations:
+Convert Content-Item message objects to their serialised JSON representations:
 
 ```php
-use Cerpus\EdlibResourceKit\Lti\ContentItem\ContentItems;
-use Cerpus\EdlibResourceKit\Lti\ContentItem\LtiLinkItem;
-use Cerpus\EdlibResourceKit\Lti\ContentItem\Serializer\ContentItemsSerializer;
+use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\LtiLinkItem;
+use Cerpus\EdlibResourceKit\Lti\Lti11\Serializer\DeepLinking\ContentItemsSerializer;
 
-$items = new ContentItems([
+$items = [
     new LtiLinkItem(
         mediaType: 'application/vnd.ims.lti.v1.ltilink',
         title: 'My Cool LTI Content',
         url: 'https://example.com/my-lti-content',
     ),
-]);
+];
 
 $serializer = new ContentItemsSerializer();
 $serialized = $serializer->serialize($items);
@@ -287,10 +290,3 @@ $resourceKit = new ResourceKit($pubSub, resourceSerializer: new MySerializer());
 
 This package is released under the GNU General Public License 3.0. See the
 `LICENSE` file for more information.
-
-## Attribution
-
-* [context.jsonld](src/Lti/ContentItem/Context/ContentItem.jsonld)
-
-  Retrieved from <https://www.imsglobal.org/lti/model/mediatype/application/vnd/ims/lti/v1/contentitems+json/context.json>
-  on 28th April 2023.

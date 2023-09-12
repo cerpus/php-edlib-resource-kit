@@ -27,7 +27,6 @@
     "require": {
         "php": "8.2.*",
         "cerpus/pubsub": "^1.0",
-        "ml/json-ld": "^1.2",
         "php-http/discovery": "^1.14.1",
         "psr/clock": "^1.0",
         "psr/clock-implementation": "^1.0",
@@ -56,7 +55,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5.x-dev"
+            "dev-master": "0.6.x-dev"
         }
     }
 }
