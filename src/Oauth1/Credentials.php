@@ -7,7 +7,13 @@ namespace Cerpus\EdlibResourceKit\Oauth1;
 use InvalidArgumentException;
 use SensitiveParameter;
 
-final readonly class Credentials
+/**
+ * Represents a key/secret pair for OAuth 1.
+ *
+ * Each {@link Credentials} object may also be used as a single-key credential
+ * store.
+ */
+final readonly class Credentials implements CredentialStoreInterface
 {
     public string $secret;
 
@@ -24,5 +30,14 @@ final readonly class Credentials
         }
 
         $this->secret = $secret;
+    }
+
+    public function findByKey(string $key): Credentials|null
+    {
+        if ($this->key !== $key) {
+            return null;
+        }
+
+        return $this;
     }
 }

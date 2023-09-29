@@ -25,4 +25,18 @@ final class CredentialsTest extends TestCase
 
         new Credentials('not empty', '');
     }
+
+    public function testFindsItselfAsSingleKeyCredentialsStore(): void
+    {
+        $credentials = new Credentials('foo', 'bar');
+
+        $this->assertSame($credentials, $credentials->findByKey('foo'));
+    }
+
+    public function testDoesNotFindItselfWhenLookingUpOtherKeys(): void
+    {
+        $credentials = new Credentials('foo', 'bar');
+
+        $this->assertNull($credentials->findByKey('boo'));
+    }
 }

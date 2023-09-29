@@ -12,5 +12,8 @@ interface ValidatorInterface
      * Ensure an OAuth1 request is well-formed and authenticated.
      * @throws ValidationException
      */
-    public function validate(Request $request): void;
+    public function validate(
+        Request $request,
+        CredentialStoreInterface $credentialStore,
+    ): void;
 }

@@ -23,7 +23,6 @@ final readonly class Validator implements ValidatorInterface
      *     time.
      */
     public function __construct(
-        private CredentialStoreInterface $credentialStore,
         private SignerInterface $signer,
         private CacheInterface $cache,
         private ClockInterface $clock,
@@ -31,13 +30,15 @@ final readonly class Validator implements ValidatorInterface
     ) {
     }
 
-    public function validate(Request $request): void
-    {
+    public function validate(
+        Request $request,
+        CredentialStoreInterface $credentialStore,
+    ): void {
         if (!$request->has(Claim::CONSUMER_KEY)) {
             $this->error('No consumer key provided');
         }
 
-        $credentials = $this->credentialStore
+        $credentials = $credentialStore
             ->findByKey($request->get(Claim::CONSUMER_KEY));
 
         if (!$credentials) {
