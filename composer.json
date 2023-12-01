@@ -25,7 +25,7 @@
         }
     },
     "require": {
-        "php": "8.2.*",
+        "php": "8.2.*|8.3.*",
         "cerpus/pubsub": "^1.0",
         "php-http/discovery": "^1.14.1",
         "psr/clock": "^1.0",
