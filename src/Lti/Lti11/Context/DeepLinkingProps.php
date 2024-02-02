@@ -28,11 +28,11 @@ final class DeepLinkingProps
     public const WIDTH = 'width';
     public const WINDOW_TARGET = 'windowTarget';
 
-    private const TYPE_ANY_URI = 'http://www.w3.org/2001/XMLSchema#anyURI';
-    private const TYPE_BOOLEAN = 'http://www.w3.org/2001/XMLSchema#boolean';
-    private const TYPE_DATETIME = 'http://www.w3.org/2001/XMLSchema#date';
-    private const TYPE_INTEGER = 'http://www.w3.org/2001/XMLSchema#integer';
-    private const TYPE_NORMALIZED_STRING = 'http://www.w3.org/2001/XMLSchema#normalizedString';
+    public const TYPE_ANY_URI = 'http://www.w3.org/2001/XMLSchema#anyURI';
+    public const TYPE_BOOLEAN = 'http://www.w3.org/2001/XMLSchema#boolean';
+    public const TYPE_DATETIME = 'http://www.w3.org/2001/XMLSchema#date';
+    public const TYPE_INTEGER = 'http://www.w3.org/2001/XMLSchema#integer';
+    public const TYPE_NORMALIZED_STRING = 'http://www.w3.org/2001/XMLSchema#normalizedString';
 
     public static function getCopyAdvice(array $data): bool|null
     {
@@ -98,7 +98,7 @@ final class DeepLinkingProps
         return self::getOfType($data, self::WINDOW_TARGET, self::TYPE_NORMALIZED_STRING);
     }
 
-    private static function getOfType(array $data, string $prop, string $type): mixed
+    public static function getOfType(array $data, string $prop, string $type): mixed
     {
         $value = $data[$prop] ?? null;
 
