@@ -25,6 +25,7 @@ final class EdlibContentItemMapperTest extends TestCase
                     'url' => 'https://example.com/my-lti-content',
                     'languageIso639_3' => 'eng',
                     'license' => 'MIT',
+                    'published' => true,
                 ],
             ],
         ]);
@@ -35,5 +36,6 @@ final class EdlibContentItemMapperTest extends TestCase
         $this->assertSame('My Cool LTI Content', $items[0]->getTitle());
         $this->assertSame('eng', $items[0]->getLanguageIso639_3());
         $this->assertSame('MIT', $items[0]->getLicense());
+        $this->assertTrue($items[0]->isPublished());
     }
 }

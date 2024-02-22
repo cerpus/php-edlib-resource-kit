@@ -12,6 +12,8 @@ class EdlibLtiLinkItem extends LtiLinkItem
 
     private string|null $license = null;
 
+    private bool|null $published = null;
+
     public function getLanguageIso639_3(): string|null
     {
         return $this->languageIso639_3;
@@ -34,6 +36,19 @@ class EdlibLtiLinkItem extends LtiLinkItem
     {
         $self = clone $this;
         $self->license = $license;
+
+        return $self;
+    }
+
+    public function isPublished(): bool|null
+    {
+        return $this->published;
+    }
+
+    public function withPublished(bool|null $published): static
+    {
+        $self = clone $this;
+        $self->published = $published;
 
         return $self;
     }

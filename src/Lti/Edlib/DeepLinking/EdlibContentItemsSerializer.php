@@ -20,6 +20,10 @@ final readonly class EdlibContentItemsSerializer implements ContentItemsSerializ
             '@id' => 'edlib:license',
             '@type' => 'xs:normalizedString',
         ],
+        'published' => [
+            '@id' => 'edlib:published',
+            '@type' => 'xs:boolean',
+        ],
     ];
 
     public function __construct(

@@ -27,6 +27,10 @@ final readonly class EdlibLtiLinkItemSerializer implements LtiLinkItemSerializer
             if ($item->getLanguageIso639_3() !== null) {
                 $serialized['languageIso639_3'] = $item->getLanguageIso639_3();
             }
+
+            if ($item->isPublished() !== null) {
+                $serialized['published'] = $item->isPublished();
+            }
         }
 
         return $serialized;
