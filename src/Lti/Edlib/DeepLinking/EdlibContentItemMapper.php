@@ -35,6 +35,7 @@ final readonly class EdlibContentItemMapper implements ContentItemMapperInterfac
                 ->withLanguageIso639_3(Prop::getOfType($data, 'languageIso639_3', Prop::TYPE_NORMALIZED_STRING))
                 ->withLicense(Prop::getOfType($data, 'license', Prop::TYPE_NORMALIZED_STRING))
                 ->withPublished(Prop::getOfType($data, 'published', Prop::TYPE_BOOLEAN))
+                ->withTags(Prop::getArrayOfType($data, 'tag', Prop::TYPE_NORMALIZED_STRING))
             ;
         }
 

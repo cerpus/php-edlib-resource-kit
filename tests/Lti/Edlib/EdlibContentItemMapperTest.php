@@ -11,11 +11,16 @@ use PHPUnit\Framework\TestCase;
 
 final class EdlibContentItemMapperTest extends TestCase
 {
+    private ContentItemsMapper $mapper;
+
+    protected function setUp(): void
+    {
+        $this->mapper = new ContentItemsMapper(new EdlibContentItemMapper());
+    }
+
     public function testMapsEdlibExtensions(): void
     {
-        $mapper = new ContentItemsMapper(new EdlibContentItemMapper());
-
-        $items = $mapper->map([
+        $items = $this->mapper->map([
             '@context' => 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
             '@graph' => [
                 [
@@ -26,6 +31,7 @@ final class EdlibContentItemMapperTest extends TestCase
                     'languageIso639_3' => 'eng',
                     'license' => 'MIT',
                     'published' => true,
+                    'tag' => 'foo',
                 ],
             ],
         ]);
@@ -37,5 +43,23 @@ final class EdlibContentItemMapperTest extends TestCase
         $this->assertSame('eng', $items[0]->getLanguageIso639_3());
         $this->assertSame('MIT', $items[0]->getLicense());
         $this->assertTrue($items[0]->isPublished());
+        $this->assertSame(['foo'], $items[0]->getTags());
+    }
+
+    public function testMapsMultipleTags(): void
+    {
+        $items = $this->mapper->map([
+            '@context' => 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+            '@graph' => [
+                [
+                    '@type' => 'LtiLinkItem',
+                    'mediaType' => 'application/vnd.ims.lti.v1.ltilink',
+                    'tag' => ['foo', 'bar'],
+                ],
+            ],
+        ]);
+
+        $this->assertCount(1, $items);
+        $this->assertSame(['foo', 'bar'], $items[0]->getTags());
     }
 }

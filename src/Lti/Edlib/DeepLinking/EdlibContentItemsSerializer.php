@@ -24,6 +24,10 @@ final readonly class EdlibContentItemsSerializer implements ContentItemsSerializ
             '@id' => 'edlib:published',
             '@type' => 'xs:boolean',
         ],
+        'tag' => [
+            '@id' => 'edlib:tag',
+            '@type' => 'xs:normalizedString',
+        ],
     ];
 
     public function __construct(

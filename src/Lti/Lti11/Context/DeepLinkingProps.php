@@ -6,6 +6,8 @@ namespace Cerpus\EdlibResourceKit\Lti\Lti11\Context;
 
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\PresentationDocumentTarget;
 use DateTimeImmutable;
+use function array_filter;
+use function array_map;
 use function preg_replace;
 
 final class DeepLinkingProps
@@ -102,6 +104,29 @@ final class DeepLinkingProps
     {
         $value = $data[$prop] ?? null;
 
+        return self::coerce($value, $type);
+    }
+
+    public static function getArrayOfType(array $data, string $prop, string $type): array
+    {
+        if (!isset($data[$prop])) {
+            return [];
+        }
+
+        if (is_array($data[$prop])) {
+            $array = array_map(
+                fn ($value) => self::coerce($value, $type),
+                $data[$prop],
+            );
+        } else {
+            $array = [self::getOfType($data, $prop, $type)];
+        }
+
+        return array_filter($array, fn ($item) => $item !== null);
+    }
+
+    private static function coerce(mixed $value, string $type): mixed
+    {
         if ($value === null) {
             return null;
         }

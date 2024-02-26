@@ -6,23 +6,23 @@ namespace Cerpus\EdlibResourceKit\Tests\Lti\Edlib;
 
 use Cerpus\EdlibResourceKit\Lti\Edlib\DeepLinking\EdlibContentItemsSerializer;
 use Cerpus\EdlibResourceKit\Lti\Edlib\DeepLinking\EdlibLtiLinkItem;
-use Cerpus\EdlibResourceKit\Lti\Edlib\DeepLinking\EdlibLtiLinkItemSerializer;
-use Cerpus\EdlibResourceKit\Lti\Lti11\Serializer\DeepLinking\ContentItemsSerializer;
 use PHPUnit\Framework\TestCase;
 
 final class EdlibContentItemsSerializerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $this->serializer = new EdlibContentItemsSerializer();
+    }
+
     public function testAddsJsonldContextAndSerializesEdlibExtensions(): void
     {
-        $data = (new EdlibContentItemsSerializer(
-            new ContentItemsSerializer(
-                ltiLinkItemSerializer: new EdlibLtiLinkItemSerializer(),
-            ),
-        ))->serialize([
+        $data = $this->serializer->serialize([
             (new EdlibLtiLinkItem(title: 'Foo'))
                 ->withLanguageIso639_3('eng')
                 ->withLicense('MIT')
-                ->withPublished(false),
+                ->withPublished(false)
+                ->withTags(['foo'])
         ]);
 
         $this->assertArrayHasKey('@context', $data);
@@ -39,11 +39,27 @@ final class EdlibContentItemsSerializerTest extends TestCase
         $this->assertIsArray($data['@graph']);
         $this->assertArrayHasKey(0, $data['@graph']);
         $this->assertIsArray($data['@graph'][0]);
+
         $this->assertArrayHasKey('languageIso639_3', $data['@graph'][0]);
         $this->assertSame('eng', $data['@graph'][0]['languageIso639_3']);
+
         $this->assertArrayHasKey('license', $data['@graph'][0]);
         $this->assertSame('MIT', $data['@graph'][0]['license']);
+
         $this->assertArrayHasKey('published', $data['@graph'][0]);
         $this->assertFalse($data['@graph'][0]['published']);
+
+        $this->assertArrayHasKey('tag', $data['@graph'][0]);
+        $this->assertSame('foo', $data['@graph'][0]['tag']);
+    }
+
+    public function testSerializesMultipleTags(): void
+    {
+        $data = $this->serializer->serialize([
+            (new EdlibLtiLinkItem)->withTags(['foo', 'bar'])
+        ]);
+
+        $this->assertArrayHasKey('tag', $data['@graph'][0]);
+        $this->assertSame(['foo', 'bar'], $data['@graph'][0]['tag']);
     }
 }
