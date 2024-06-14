@@ -16,6 +16,8 @@ class EdlibLtiLinkItem extends LtiLinkItem
 
     private bool|null $published = null;
 
+    private bool|null $shared = null;
+
     /**
      * @var list<string>
      */
@@ -56,6 +58,19 @@ class EdlibLtiLinkItem extends LtiLinkItem
     {
         $self = clone $this;
         $self->published = $published;
+
+        return $self;
+    }
+
+    public function isShared(): bool|null
+    {
+        return $this->shared;
+    }
+
+    public function withShared(bool|null $shared): static
+    {
+        $self = clone $this;
+        $self->shared = $shared;
 
         return $self;
     }

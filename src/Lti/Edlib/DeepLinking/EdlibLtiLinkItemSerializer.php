@@ -32,6 +32,10 @@ final readonly class EdlibLtiLinkItemSerializer implements LtiLinkItemSerializer
                 $serialized['published'] = $item->isPublished();
             }
 
+            if ($item->isShared() !== null) {
+                $serialized['shared'] = $item->isShared();
+            }
+
             if (count($item->getTags()) > 1) {
                 $serialized['tag'] = $item->getTags();
             } elseif (count($item->getTags()) === 1) {

@@ -22,6 +22,7 @@ final class EdlibContentItemsSerializerTest extends TestCase
                 ->withLanguageIso639_3('eng')
                 ->withLicense('MIT')
                 ->withPublished(false)
+                ->withShared(true)
                 ->withTags(['foo'])
         ]);
 
@@ -48,6 +49,9 @@ final class EdlibContentItemsSerializerTest extends TestCase
 
         $this->assertArrayHasKey('published', $data['@graph'][0]);
         $this->assertFalse($data['@graph'][0]['published']);
+
+        $this->assertArrayHasKey('shared', $data['@graph'][0]);
+        $this->assertTrue($data['@graph'][0]['shared']);
 
         $this->assertArrayHasKey('tag', $data['@graph'][0]);
         $this->assertSame('foo', $data['@graph'][0]['tag']);
