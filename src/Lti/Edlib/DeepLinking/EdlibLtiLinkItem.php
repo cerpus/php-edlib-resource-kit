@@ -10,6 +10,8 @@ use function array_values;
 
 class EdlibLtiLinkItem extends LtiLinkItem
 {
+    private string|null $edlibVersionId = null;
+
     private string|null $languageIso639_3 = null;
 
     private string|null $license = null;
@@ -22,6 +24,19 @@ class EdlibLtiLinkItem extends LtiLinkItem
      * @var list<string>
      */
     private array $tags = [];
+
+    public function getEdlibVersionId(): string|null
+    {
+        return $this->edlibVersionId;
+    }
+
+    public function withEdlibVersionId(string|null $edlibVersionId): static
+    {
+        $self = clone $this;
+        $self->edlibVersionId = $edlibVersionId;
+
+        return $self;
+    }
 
     public function getLanguageIso639_3(): string|null
     {

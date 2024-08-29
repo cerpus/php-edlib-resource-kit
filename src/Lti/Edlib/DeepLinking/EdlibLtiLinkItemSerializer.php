@@ -20,6 +20,10 @@ final readonly class EdlibLtiLinkItemSerializer implements LtiLinkItemSerializer
         $serialized = $this->serializer->serialize($item);
 
         if ($item instanceof EdlibLtiLinkItem) {
+            if ($item->getEdlibVersionId() !== null) {
+                $serialized['edlibVersionId'] = $item->getEdlibVersionId();
+            }
+
             if ($item->getLicense() !== null) {
                 $serialized['license'] = $item->getLicense();
             }

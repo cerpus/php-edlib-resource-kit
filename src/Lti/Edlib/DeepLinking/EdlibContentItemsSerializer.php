@@ -12,6 +12,10 @@ final readonly class EdlibContentItemsSerializer implements ContentItemsSerializ
     private const CONTEXT = [
         'edlib' => 'https://spec.edlib.com/lti/vocab#',
         'xs' => 'http://www.w3.org/2001/XMLSchema#',
+        'edlibVersionId' => [
+            '@id' => 'edlib:edlibVersionId',
+            '@type' => 'xs:normalizedString',
+        ],
         'languageIso639_3' => [
             '@id' => 'edlib:languageIso639_3',
             '@type' => 'xs:normalizedString',

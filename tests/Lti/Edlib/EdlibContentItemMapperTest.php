@@ -28,6 +28,7 @@ final class EdlibContentItemMapperTest extends TestCase
                     'mediaType' => 'application/vnd.ims.lti.v1.ltilink',
                     'title' => 'My Cool LTI Content',
                     'url' => 'https://example.com/my-lti-content',
+                    'edlibVersionId' => '9876543210',
                     'languageIso639_3' => 'eng',
                     'license' => 'MIT',
                     'published' => true,
@@ -41,6 +42,7 @@ final class EdlibContentItemMapperTest extends TestCase
         $this->assertArrayHasKey(0, $items);
         $this->assertInstanceOf(EdlibLtiLinkItem::class, $items[0]);
         $this->assertSame('My Cool LTI Content', $items[0]->getTitle());
+        $this->assertSame('9876543210', $items[0]->getEdlibVersionId());
         $this->assertSame('eng', $items[0]->getLanguageIso639_3());
         $this->assertSame('MIT', $items[0]->getLicense());
         $this->assertFalse($items[0]->isShared());

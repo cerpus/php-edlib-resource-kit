@@ -19,6 +19,7 @@ final class EdlibContentItemsSerializerTest extends TestCase
     {
         $data = $this->serializer->serialize([
             (new EdlibLtiLinkItem(title: 'Foo'))
+                ->withEdlibVersionId('1234567890')
                 ->withLanguageIso639_3('eng')
                 ->withLicense('MIT')
                 ->withPublished(false)
@@ -40,6 +41,9 @@ final class EdlibContentItemsSerializerTest extends TestCase
         $this->assertIsArray($data['@graph']);
         $this->assertArrayHasKey(0, $data['@graph']);
         $this->assertIsArray($data['@graph'][0]);
+
+        $this->assertArrayHasKey('edlibVersionId', $data['@graph'][0]);
+        $this->assertSame('1234567890', $data['@graph'][0]['edlibVersionId']);
 
         $this->assertArrayHasKey('languageIso639_3', $data['@graph'][0]);
         $this->assertSame('eng', $data['@graph'][0]['languageIso639_3']);
