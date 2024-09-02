@@ -9,22 +9,11 @@ final readonly class ScoreConstraintsSerializer implements ScoreConstraintsSeria
 {
     public function serialize(ScoreConstraints $scoreConstraints): array
     {
-        $serialized = [
+        return [
             '@type' => 'NumericLimits',
+            Prop::NORMAL_MAXIMUM => $scoreConstraints->getNormalMaximum() ?? 0,
+            Prop::EXTRA_CREDIT_MAXIMUM => $scoreConstraints->getExtraCreditMaximum() ?? 0,
+            Prop::TOTAL_MAXIMUM => $scoreConstraints->getTotalMaximum(),
         ];
-
-        if ($scoreConstraints->getNormalMaximum() !== null) {
-            $serialized[Prop::NORMAL_MAXIMUM] = $scoreConstraints->getNormalMaximum();
-        }
-
-        if ($scoreConstraints->getExtraCreditMaximum() !== null) {
-            $serialized[Prop::EXTRA_CREDIT_MAXIMUM] = $scoreConstraints->getExtraCreditMaximum();
-        }
-
-        if ($scoreConstraints->getTotalMaximum() !== null) {
-            $serialized[Prop::TOTAL_MAXIMUM] = $scoreConstraints->getTotalMaximum();
-        }
-
-        return $serialized;
     }
 }
