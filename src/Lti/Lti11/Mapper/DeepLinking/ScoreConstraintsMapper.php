@@ -5,7 +5,7 @@ namespace Cerpus\EdlibResourceKit\Lti\Lti11\Mapper\DeepLinking;
 use Cerpus\EdlibResourceKit\Lti\Lti11\Context\DeepLinkingProps as Prop;
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\ScoreConstraints;
 
-class ScoreConstraintsMapper implements ScoreConstraintsMapperInterface
+final readonly class ScoreConstraintsMapper implements ScoreConstraintsMapperInterface
 {
     public function map(array $data): ScoreConstraints|null
     {

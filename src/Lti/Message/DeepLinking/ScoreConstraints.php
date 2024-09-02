@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cerpus\EdlibResourceKit\Lti\Message\DeepLinking;
 
-final readonly class ScoreConstraints
+class ScoreConstraints
 {
     public function __construct(
-        private float|null $normalMaximum = null,
-        private float|null $extraCreditMaximum = null,
+        private readonly float|null $normalMaximum = null,
+        private readonly float|null $extraCreditMaximum = null,
     ) {
     }
 

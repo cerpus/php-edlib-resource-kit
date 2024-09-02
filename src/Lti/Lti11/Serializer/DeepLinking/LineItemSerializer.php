@@ -10,7 +10,7 @@ use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\LineItem;
 final readonly class LineItemSerializer implements LineItemSerializerInterface
 {
     public function __construct(
-        private ScoreConstraintsSerializer $scoreConstraintsSerializer = new ScoreConstraintsSerializer(),
+        private ScoreConstraintsSerializerInterface $scoreConstraintsSerializer = new ScoreConstraintsSerializer(),
     ) {
     }
 

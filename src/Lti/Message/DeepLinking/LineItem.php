@@ -2,10 +2,10 @@
 
 namespace Cerpus\EdlibResourceKit\Lti\Message\DeepLinking;
 
-final readonly class LineItem
+class LineItem
 {
     public function __construct(
-        private ScoreConstraints|null $scoreConstraints = null,
+        private readonly ScoreConstraints|null $scoreConstraints = null,
     ) {
     }
 
