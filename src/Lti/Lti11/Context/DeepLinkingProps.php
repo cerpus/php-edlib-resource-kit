@@ -18,14 +18,19 @@ final class DeepLinkingProps
     public const EXPIRES_AT = 'expiresAt';
     public const DISPLAY_HEIGHT = 'displayHeight';
     public const DISPLAY_WIDTH = 'displayWidth';
+    public const EXTRA_CREDIT_MAXIMUM = 'extraCreditMaximum';
     public const HEIGHT = 'height';
     public const ICON = 'icon';
+    public const LINE_ITEM = 'lineItem';
     public const MEDIA_TYPE = 'mediaType';
+    public const NORMAL_MAXIMUM = 'normalMaximum';
     public const PLACEMENT_ADVICE = 'placementAdvice';
     public const PRESENTATION_DOCUMENT_TARGET = 'presentationDocumentTarget';
+    public const SCORE_CONSTRAINTS = 'scoreConstraints';
     public const TEXT = 'text';
     public const THUMBNAIL = 'thumbnail';
     public const TITLE = 'title';
+    public const TOTAL_MAXIMUM = 'totalMaximum';
     public const URL = 'url';
     public const WIDTH = 'width';
     public const WINDOW_TARGET = 'windowTarget';
@@ -33,6 +38,7 @@ final class DeepLinkingProps
     public const TYPE_ANY_URI = 'http://www.w3.org/2001/XMLSchema#anyURI';
     public const TYPE_BOOLEAN = 'http://www.w3.org/2001/XMLSchema#boolean';
     public const TYPE_DATETIME = 'http://www.w3.org/2001/XMLSchema#date';
+    public const TYPE_FLOAT = 'http://www.w3.org/2001/XMLSchema#float';
     public const TYPE_INTEGER = 'http://www.w3.org/2001/XMLSchema#integer';
     public const TYPE_NORMALIZED_STRING = 'http://www.w3.org/2001/XMLSchema#normalizedString';
 
@@ -56,6 +62,11 @@ final class DeepLinkingProps
         return self::getOfType($data, self::EXPIRES_AT, self::TYPE_DATETIME);
     }
 
+    public static function getExtraCreditMaximum(array $data): float|null
+    {
+        return self::getOfType($data, self::EXTRA_CREDIT_MAXIMUM, self::TYPE_FLOAT);
+    }
+
     public static function getHeight(array $data): int|null
     {
         return self::getOfType($data, self::HEIGHT, self::TYPE_INTEGER);
@@ -64,6 +75,11 @@ final class DeepLinkingProps
     public static function getMediaType(array $data): string|null
     {
         return self::getOfType($data, self::MEDIA_TYPE, self::TYPE_NORMALIZED_STRING);
+    }
+
+    public static function getNormalMaximum(array $data): float|null
+    {
+        return self::getOfType($data, self::NORMAL_MAXIMUM, self::TYPE_FLOAT);
     }
 
     public static function getPresentationDocumentTarget(array $data): PresentationDocumentTarget|null
@@ -134,6 +150,7 @@ final class DeepLinkingProps
         return match ($type) {
             self::TYPE_BOOLEAN => (bool) $value,
             self::TYPE_DATETIME => new DateTimeImmutable($value),
+            self::TYPE_FLOAT => (float) $value,
             self::TYPE_INTEGER => (int) $value,
             self::TYPE_NORMALIZED_STRING => preg_replace('/[\r\n\t]+/', '', $value),
             default => $value,

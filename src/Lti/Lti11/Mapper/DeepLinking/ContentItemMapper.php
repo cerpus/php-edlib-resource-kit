@@ -15,6 +15,7 @@ final readonly class ContentItemMapper implements ContentItemMapperInterface
     public function __construct(
         private ImageMapperInterface $imageMapper = new ImageMapper(),
         private PlacementAdviceMapperInterface $placementAdviceMapper = new PlacementAdviceMapper(),
+        private LineItemMapperInterface $lineItemMapper = new LineItemMapper(),
     ) {
     }
 
@@ -30,6 +31,7 @@ final readonly class ContentItemMapper implements ContentItemMapperInterface
 
         $icon = $this->imageMapper->map($data[Prop::ICON] ?? []);
         $thumbnail = $this->imageMapper->map($data[Prop::THUMBNAIL] ?? []);
+        $lineItem = $this->lineItemMapper->map($data[Prop::LINE_ITEM] ?? []);
 
         if ($type === 'LtiLinkItem') {
             return new LtiLinkItem(
@@ -41,6 +43,7 @@ final readonly class ContentItemMapper implements ContentItemMapperInterface
                 Prop::getTitle($data),
                 Prop::getUrl($data),
                 custom: [], // TODO
+                lineItem: $lineItem,
             );
         }
 

@@ -18,6 +18,7 @@ class LtiLinkItem extends ContentItem
         string|null $title = null,
         string|null $url = null,
         private readonly array $custom = [],
+        private readonly LineItem|null $lineItem = null,
     ) {
         parent::__construct(
             $mediaType,
@@ -33,5 +34,10 @@ class LtiLinkItem extends ContentItem
     public function getCustom(): array
     {
         return $this->custom;
+    }
+
+    public function getLineItem(): LineItem|null
+    {
+        return $this->lineItem;
     }
 }

@@ -9,8 +9,10 @@ use Cerpus\EdlibResourceKit\Lti\Lti11\Serializer\DeepLinking\ContentItemsSeriali
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\ContentItemPlacement;
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\FileItem;
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\Image;
+use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\LineItem;
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\LtiLinkItem;
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\PresentationDocumentTarget;
+use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\ScoreConstraints;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
@@ -68,6 +70,9 @@ final class ContentItemsSerializerTest extends TestCase
                 text: 'A cool text description of my cool content',
                 title: 'My Cool Content',
                 url: 'https://example.com/lti',
+                lineItem: new LineItem(
+                    new ScoreConstraints(39.5, 2.5)
+                ),
             ),
             new FileItem(
                 mediaType: 'application/vnd.ims.lti.v1.ltilink',
@@ -104,6 +109,15 @@ final class ContentItemsSerializerTest extends TestCase
                     'title' => 'My Cool Content',
                     'text' => 'A cool text description of my cool content',
                     'url' => 'https://example.com/lti',
+                    'lineItem' => [
+                        '@type' => 'LineItem',
+                        'scoreConstraints' => [
+                            '@type' => 'NumericLimits',
+                            'normalMaximum' => 39.5,
+                            'extraCreditMaximum' => 2.5,
+                            'totalMaximum' => 42.0,
+                        ],
+                    ],
                 ],
                 [
                     '@type' => 'FileItem',

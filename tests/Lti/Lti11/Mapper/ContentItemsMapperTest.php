@@ -51,6 +51,15 @@ final class ContentItemsMapperTest extends TestCase
                         'height' => 240,
                     ],
                     'url' => 'http://example.com/lti',
+                    'lineItem' => [
+                        '@type' => 'LineItem',
+                        'scoreConstraints' => [
+                            '@type' => 'NumericLimits',
+                            'normalMaximum' => 39.5,
+                            'extraCreditMaximum' => 2.5,
+                            'totalMaximum' => 42.0,
+                        ],
+                    ],
                 ],
                 [
                     '@type' => 'FileItem',
@@ -91,6 +100,11 @@ final class ContentItemsMapperTest extends TestCase
         $this->assertArrayHasKey(2, $contentItems);
         $this->assertSame(ContentItem::class, $contentItems[2]::class);
         $this->assertSame('Some content', $contentItems[2]->getTitle());
+
+        $score = $contentItems[0]->getLineItem()->getScoreConstraints();
+        $this->assertSame(39.5, $score->getNormalMaximum());
+        $this->assertSame(2.5, $score->getExtraCreditMaximum());
+        $this->assertSame(42.0, $score->getTotalMaximum());
     }
 
     public function testMapsDataWithAdditionalJsonldContexts(): void
