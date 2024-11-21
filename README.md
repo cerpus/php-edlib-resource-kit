@@ -6,7 +6,7 @@ Create custom content types for [Edlib](https://edlib.com/).
 
 ## Requirements
 
-* PHP 8.2 or 8.3
+* PHP 8.2, 8.3 or 8.4
 
 ## Installation
 

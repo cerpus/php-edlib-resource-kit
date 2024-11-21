@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 final class EdlibContentItemsSerializerTest extends TestCase
 {
+    private EdlibContentItemsSerializer $serializer;
+
     protected function setUp(): void
     {
         $this->serializer = new EdlibContentItemsSerializer();
