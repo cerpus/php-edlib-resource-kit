@@ -17,7 +17,7 @@ class LtiLinkItem extends ContentItem
         Image|null $thumbnail = null,
         string|null $title = null,
         string|null $url = null,
-        private readonly array $custom = [],
+        private readonly array|null $custom = null,
         private readonly LineItem|null $lineItem = null,
     ) {
         parent::__construct(
@@ -31,7 +31,7 @@ class LtiLinkItem extends ContentItem
         );
     }
 
-    public function getCustom(): array
+    public function getCustom(): array|null
     {
         return $this->custom;
     }

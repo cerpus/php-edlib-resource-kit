@@ -70,6 +70,10 @@ final class ContentItemsSerializerTest extends TestCase
                 text: 'A cool text description of my cool content',
                 title: 'My Cool Content',
                 url: 'https://example.com/lti',
+                custom: [
+                    'level' => 'expert',
+                    'numericLevel' => 42,
+                ],
                 lineItem: new LineItem(
                     new ScoreConstraints(39.5, 2.5)
                 ),
@@ -117,6 +121,10 @@ final class ContentItemsSerializerTest extends TestCase
                             'extraCreditMaximum' => 2.5,
                             'totalMaximum' => 42.0,
                         ],
+                    ],
+                    'custom' => [
+                        'level' => 'expert',
+                        'numericLevel' => 42,
                     ],
                 ],
                 [

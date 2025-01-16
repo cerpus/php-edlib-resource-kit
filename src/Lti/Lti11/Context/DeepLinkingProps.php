@@ -6,6 +6,7 @@ namespace Cerpus\EdlibResourceKit\Lti\Lti11\Context;
 
 use Cerpus\EdlibResourceKit\Lti\Message\DeepLinking\PresentationDocumentTarget;
 use DateTimeImmutable;
+
 use function array_filter;
 use function array_map;
 use function preg_replace;
@@ -15,6 +16,7 @@ final class DeepLinkingProps
     public const JSONLD_VOCAB = 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem';
 
     public const COPY_ADVICE = 'copyAdvice';
+    public const CUSTOM = 'custom';
     public const EXPIRES_AT = 'expiresAt';
     public const DISPLAY_HEIGHT = 'displayHeight';
     public const DISPLAY_WIDTH = 'displayWidth';
@@ -41,6 +43,7 @@ final class DeepLinkingProps
     public const TYPE_FLOAT = 'http://www.w3.org/2001/XMLSchema#float';
     public const TYPE_INTEGER = 'http://www.w3.org/2001/XMLSchema#integer';
     public const TYPE_NORMALIZED_STRING = 'http://www.w3.org/2001/XMLSchema#normalizedString';
+    public const TYPE_STRING = 'http://www.w3.org/2001/XMLSchema#string';
 
     public static function getCopyAdvice(array $data): bool|null
     {
@@ -114,6 +117,13 @@ final class DeepLinkingProps
     public static function getWindowTarget(array $data): string|null
     {
         return self::getOfType($data, self::WINDOW_TARGET, self::TYPE_NORMALIZED_STRING);
+    }
+
+    public static function getCustom(array $data): array|null
+    {
+        $custom = self::getArrayOfType($data, self::CUSTOM, self::TYPE_STRING);
+
+        return empty($custom) ? null : $custom;
     }
 
     public static function getOfType(array $data, string $prop, string $type): mixed

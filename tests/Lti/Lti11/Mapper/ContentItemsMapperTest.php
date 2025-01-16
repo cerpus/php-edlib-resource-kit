@@ -60,6 +60,10 @@ final class ContentItemsMapperTest extends TestCase
                             'totalMaximum' => 42.0,
                         ],
                     ],
+                    'custom' => [
+                        'level' => 'expert',
+                        'numericLevel' => 42,
+                    ],
                 ],
                 [
                     '@type' => 'FileItem',
@@ -105,6 +109,11 @@ final class ContentItemsMapperTest extends TestCase
         $this->assertSame(39.5, $score->getNormalMaximum());
         $this->assertSame(2.5, $score->getExtraCreditMaximum());
         $this->assertSame(42.0, $score->getTotalMaximum());
+
+        $custom = $contentItems[0]->getCustom();
+        $this->assertIsArray($custom);
+        $this->assertSame('expert', $custom['level']);
+        $this->assertSame(42, $custom['numericLevel']);
     }
 
     public function testMapsDataWithAdditionalJsonldContexts(): void
