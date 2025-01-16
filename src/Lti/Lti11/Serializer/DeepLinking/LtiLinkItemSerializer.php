@@ -10,14 +10,11 @@ use Cerpus\EdlibResourceKit\Lti\Lti11\Context\DeepLinkingProps as Prop;
 final readonly class LtiLinkItemSerializer implements LtiLinkItemSerializerInterface
 {
     public function __construct(
-        private ContentItemSerializer $serializer = new ContentItemSerializer(),
+        private ContentItemSerializerInterface $serializer = new ContentItemSerializer(),
         private LineItemSerializerInterface $lineItemSerializer = new LineItemSerializer(),
     ) {
     }
 
-    /**
-     * @todo Handle the "custom" property
-     */
     public function serialize(LtiLinkItem $item): array
     {
         $serialized = [
@@ -29,6 +26,10 @@ final readonly class LtiLinkItemSerializer implements LtiLinkItemSerializerInter
             $serialized[Prop::LINE_ITEM] = $this
                 ->lineItemSerializer
                 ->serialize($item->getLineItem());
+        }
+
+        if (!empty($item->getCustom())) {
+            $serialized[Prop::CUSTOM] = $item->getCustom();
         }
 
         return $serialized;
