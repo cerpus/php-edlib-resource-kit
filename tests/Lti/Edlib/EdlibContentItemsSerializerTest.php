@@ -27,6 +27,7 @@ final class EdlibContentItemsSerializerTest extends TestCase
                 ->withPublished(false)
                 ->withShared(true)
                 ->withTags(['foo'])
+                ->withOwnerEmail('owner@example.com')
         ]);
 
         $this->assertArrayHasKey('@context', $data);
@@ -61,6 +62,9 @@ final class EdlibContentItemsSerializerTest extends TestCase
 
         $this->assertArrayHasKey('tag', $data['@graph'][0]);
         $this->assertSame('foo', $data['@graph'][0]['tag']);
+
+        $this->assertArrayHasKey('ownerEmail', $data['@graph'][0]);
+        $this->assertSame('owner@example.com', $data['@graph'][0]['ownerEmail']);
     }
 
     public function testSerializesMultipleTags(): void

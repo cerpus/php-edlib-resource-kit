@@ -34,6 +34,7 @@ final class EdlibContentItemMapperTest extends TestCase
                     'published' => true,
                     'shared' => false,
                     'tag' => 'foo',
+                    'ownerEmail' => 'owner@example.com',
                 ],
             ],
         ]);
@@ -48,6 +49,7 @@ final class EdlibContentItemMapperTest extends TestCase
         $this->assertFalse($items[0]->isShared());
         $this->assertTrue($items[0]->isPublished());
         $this->assertSame(['foo'], $items[0]->getTags());
+        $this->assertSame('owner@example.com', $items[0]->getOwnerEmail());
     }
 
     public function testMapsMultipleTags(): void

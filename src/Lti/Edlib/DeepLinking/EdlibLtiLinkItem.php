@@ -20,6 +20,8 @@ class EdlibLtiLinkItem extends LtiLinkItem
 
     private bool|null $shared = null;
 
+    private string|null $ownerEmail = null;
+
     /**
      * @var list<string>
      */
@@ -105,6 +107,19 @@ class EdlibLtiLinkItem extends LtiLinkItem
     {
         $self = clone $this;
         $self->tags = array_values($tags);
+
+        return $self;
+    }
+
+    public function getOwnerEmail(): string|null
+    {
+        return $this->ownerEmail;
+    }
+
+    public function withOwnerEmail(string|null $email): static
+    {
+        $self = clone $this;
+        $self->ownerEmail = $email;
 
         return $self;
     }
