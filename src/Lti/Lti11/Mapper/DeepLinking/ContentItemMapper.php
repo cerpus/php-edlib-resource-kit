@@ -42,8 +42,8 @@ final readonly class ContentItemMapper implements ContentItemMapperInterface
                 $thumbnail,
                 Prop::getTitle($data),
                 Prop::getUrl($data),
-                custom: [], // TODO
-                lineItem: $lineItem,
+                Prop::getCustom($data),
+                $lineItem,
             );
         }
 
