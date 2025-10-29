@@ -49,6 +49,14 @@ final readonly class EdlibLtiLinkItemSerializer implements LtiLinkItemSerializer
             if ($item->getOwnerEmail() !== null) {
                 $serialized['ownerEmail'] = $item->getOwnerEmail();
             }
+
+            if ($item->getContentType() !== null) {
+                $serialized['contentType'] = $item->getContentType();
+            }
+
+            if ($item->getContentTypeName() !== null) {
+                $serialized['contentTypeName'] = $item->getContentTypeName();
+            }
         }
 
         return $serialized;
