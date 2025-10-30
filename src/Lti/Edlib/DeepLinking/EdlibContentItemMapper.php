@@ -40,6 +40,8 @@ final readonly class EdlibContentItemMapper implements ContentItemMapperInterfac
                 ->withShared(Prop::getOfType($data, 'shared', Prop::TYPE_BOOLEAN))
                 ->withTags(Prop::getArrayOfType($data, 'tag', Prop::TYPE_NORMALIZED_STRING))
                 ->withOwnerEmail(Prop::getOfType($data, 'ownerEmail', Prop::TYPE_NORMALIZED_STRING))
+                ->withContentType(Prop::getOfType($data, 'contentType', Prop::TYPE_NORMALIZED_STRING))
+                ->withContentTypeName(Prop::getOfType($data, 'contentTypeName', Prop::TYPE_NORMALIZED_STRING))
             ;
         }
 

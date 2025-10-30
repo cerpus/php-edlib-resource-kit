@@ -22,6 +22,10 @@ class EdlibLtiLinkItem extends LtiLinkItem
 
     private string|null $ownerEmail = null;
 
+    private string|null $contentType = null;
+
+    private string|null $contentTypeName = null;
+
     /**
      * @var list<string>
      */
@@ -120,6 +124,32 @@ class EdlibLtiLinkItem extends LtiLinkItem
     {
         $self = clone $this;
         $self->ownerEmail = $email;
+
+        return $self;
+    }
+
+    public function getContentType(): string|null
+    {
+        return $this->contentType;
+    }
+
+    public function withContentType(string|null $type): static
+    {
+        $self = clone $this;
+        $self->contentType = $type;
+
+        return $self;
+    }
+
+    public function getContentTypeName(): string|null
+    {
+        return $this->contentTypeName;
+    }
+
+    public function withContentTypeName(string|null $name): static
+    {
+        $self = clone $this;
+        $self->contentTypeName = $name;
 
         return $self;
     }
